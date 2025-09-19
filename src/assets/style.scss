@@ -61,6 +61,35 @@ body {
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+
+
+    .cancel-btn {
+        background-color: #00c6ff;
+        padding: 10px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        right: 1%;
+        top: 2%;
+        color: #fff;
+
+        i {
+            font-size: 17px;
+            color: #fff;
+
+            &:hover {
+                color: #00c6ff;
+            }
+        }
+
+        &:hover {
+            background-color: #fff;
+            border: 2px solid #00c6ff;
+        }
+    }
 
     h1 {
         text-align: center;
@@ -109,5 +138,98 @@ body {
         &:hover {
             background: linear-gradient(90deg, #0056b3, #0095cc);
         }
+    }
+}
+
+
+.main-list-div {
+    max-width: 100%;
+    margin: 0 auto;
+    min-height: calc(100vh - 10vh);
+    margin: 50px;
+
+
+    .title-addbtn {
+
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            background-color: #4facfe;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+
+
+        }
+    }
+
+
+    .expense-list {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        // margin-top: 50px;
+
+        li {
+            background-color: rgb(234, 228, 228);
+            list-style: none;
+            margin-top: 15px;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1vw;
+            border-radius: 10px;
+            margin-bottom: 20px;
+
+            .btns {
+
+                span {
+                    padding: 0 10px;
+
+                    i {
+                        font-size: 1.5vw;
+
+
+                    }
+
+                    &:nth-child(1) {
+                        color: rgba(230, 28, 28, 0.672);
+                    }
+
+                    &:nth-child(2) {
+                        color: rgb(4, 110, 57);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+/* responsive tweak */
+@media (max-width: 480px) {
+    .expense-item {
+        padding: 10px;
+
+        .item-right .amount {
+            min-width: 60px;
+            padding: 5px 8px;
+            font-size: 0.9rem;
+        }
+    }
+
+    .total-amount {
+        width: 100%;
+        float: none;
+        text-align: center;
     }
 }
