@@ -1,16 +1,32 @@
 <template>
   <div class="expense-form">
-    <button class="cancel-btn" @click="back"><i class="ri-close-large-fill"></i></button>
+    <button class="cancel-btn" @click="back">
+      <i class="ri-close-large-fill"></i>
+    </button>
     <h1>Add Expense</h1>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" id="title" v-model="expense.title" placeholder="Enter expense title" required />
+        <input
+          type="text"
+          id="title"
+          v-model="expense.title"
+          placeholder="Enter expense title"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="amount">Amount</label>
-        <input type="number" id="amount" v-model="expense.amount" placeholder="Enter amount" required />
+        <input
+          type="number"
+          id="amount"
+          v-model.number="expense.amount"
+          placeholder="Enter amount"
+          required
+          min="1"
+          step="1"
+        />
       </div>
 
       <div class="form-group">
@@ -36,12 +52,12 @@
 </template>
 
 <script>
-
-import { EventBus } from '../eventBus'
+import { EventBus } from "../eventBus";
 export default {
   data() {
     return {
       expense: {
+        id: null,
         title: "",
         amount: "",
         category: "",
@@ -50,24 +66,53 @@ export default {
     };
   },
 
+  created() {
+    const id = this.$route.query.id;
+    if (id) {
+      const saved = JSON.parse(localStorage.getItem("expenses") || "[]");
+
+      const exp = saved.find((e) => e.id == id);
+      if (exp) {
+        this.expense = { ...exp }; // 👈 form pre-fill ho jayega
+      }
+    }
+  },
+
   methods: {
     handleSubmit() {
-      // create new expense, ensure amount is numeric
-      const newExp = { ...this.expense, amount: Number(this.expense.amount) };
+      // ✅ Amount validation
+      if (this.expense.amount <= 0) {
+        alert("Amount must be greater than 0!");
+        return;
+      }
 
-      // persist to localStorage so list can read it even if it wasn't mounted
-      const saved = JSON.parse(localStorage.getItem('expenses') || '[]');
-      saved.push(newExp);
-      localStorage.setItem('expenses', JSON.stringify(saved));
+      if (!Number.isInteger(this.expense.amount)) {
+        alert("Amount must be a whole number (no decimals allowed)!");
+        return;
+      }
 
-      // notify any active listeners
-      EventBus.$emit("expenses-added", newExp);
+      const saved = JSON.parse(localStorage.getItem("expenses") || "[]");
+      const id = this.$route.query.id;
 
-      alert("Expense Added Successfully!");
-      this.expense = { title: "", amount: "", category: "", date: "" }; // reset form
+      if (id) {
+        // 🔹 edit mode
+        const index = saved.findIndex((e) => e.id == id);
+        if (index !== -1) {
+          saved[index] = { ...this.expense, id: Number(id) };
+        }
+        localStorage.setItem("expenses", JSON.stringify(saved));
+        alert("Expense Updated Successfully!");
+      } else {
+        // 🔹 add mode
+        const newExp = { ...this.expense, id: Date.now() };
+        saved.push(newExp);
+        localStorage.setItem("expenses", JSON.stringify(saved));
+        EventBus.$emit("expenses-added", newExp);
+        alert("Expense Added Successfully!");
+      }
 
-      // go back to list (list will load saved data on created)
-      this.$router.push('/');
+      this.expense = { title: "", amount: "", category: "", date: "" };
+      this.$router.push("/");
     },
 
     back() {
