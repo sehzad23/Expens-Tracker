@@ -5,8 +5,6 @@
       <button @click="goToAddForm">Add Expens</button>
     </div>
 
-
-
     <table class="expense-table">
       <thead>
         <tr>
@@ -26,19 +24,28 @@
           <td class="exp-cetegory">{{ exp.category }}</td>
           <td class="exp-date">{{ exp.date }}</td>
 
-
           <td>
             <div v-if="exp.image && exp.image.length">
-              <div v-for="(img, index) in exp.image" :key="index" class="preview-item">
-                <img :src="img" alt="Expens image">
+              <div
+                v-for="(img, index) in exp.image"
+                :key="index"
+                class="preview-item"
+              >
+                <img :src="img" alt="Expens image" />
               </div>
             </div>
+            <div v-else>No image</div>
           </td>
           <td class="exp-btns">
-            <i class="ri-delete-bin-6-line delete-icon" @click="DeleteList(index)"></i>
-            <i class="ri-edit-circle-fill update-icon" @click="UpdateList(exp.id)"></i>
+            <i
+              class="ri-delete-bin-6-line delete-icon"
+              @click="DeleteList(index)"
+            ></i>
+            <i
+              class="ri-edit-circle-fill update-icon"
+              @click="UpdateList(exp.id)"
+            ></i>
           </td>
-
         </tr>
       </tbody>
     </table>

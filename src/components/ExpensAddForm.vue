@@ -4,21 +4,37 @@
       <i class="ri-close-large-fill"></i>
     </button>
     <h1>Add Expense</h1>
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" novalidate>
+      <!-- Title -->
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" id="title" v-model="expense.title" placeholder="Enter expense title" @input="filterText" />
+        <input
+          type="text"
+          id="title"
+          v-model="expense.title"
+          placeholder="Enter expense title"
+          @input="filterText"
+        />
         <small v-if="errormsg" class="name-error">{{ errormsg }}</small>
       </div>
 
+      <!-- Amount -->
       <div class="form-group">
         <label for="amount">Amount</label>
-        <input type="number" id="amount" v-model.number="expense.amount" placeholder="Enter amount" />
+        <input
+          type="number"
+          id="amount"
+          v-model.number="expense.amount"
+          placeholder="Enter amount"
+          step="any"
+        />
+        <small v-if="amountError" class="amount-error">{{ amountError }}</small>
       </div>
 
+      <!-- Category -->
       <div class="form-group">
         <label for="category">Category</label>
-        <select id="category" v-model="expense.category" required>
+        <select id="category" v-model="expense.category">
           <option disabled value="">Select category</option>
           <option>Food</option>
           <option>Transport</option>
@@ -28,24 +44,36 @@
         </select>
       </div>
 
+      <!-- Toggle Image -->
       <div class="form-group toggle-group">
         <label class="switch">
-          <input type="checkbox" v-model="expense.toggel" @change="handleToggel">
+          <input
+            type="checkbox"
+            v-model="expense.toggel"
+            @change="handleToggel"
+          />
           <span class="slider round"></span>
         </label>
-        <span class="toggle-label">Toggel for keep Image</span>
+        <span class="toggle-label">Toggle to keep Image</span>
       </div>
 
+      <!-- Image Input -->
       <div class="form-group" v-if="expense.toggel">
         <label for="image">Image</label>
-        <input type="file" id="image" accept="image/*" multiple @change="handleImage" />
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          multiple
+          @change="handleImage"
+        />
       </div>
 
-
-
-      <div class="form-group  toggle-group">
+      <!-- Date -->
+      <div class="form-group toggle-group">
         <label for="date">Date</label>
-        <input type="date" id="date" v-model="expense.date" required />
+        <input type="date" id="date" v-model="expense.date" />
+        <small v-if="dateError" class="date-error">{{ dateError }}</small>
       </div>
 
       <button type="submit" class="submit-btn">Add Expense</button>
@@ -54,8 +82,9 @@
 </template>
 
 <script>
-
 import { EventBus } from "../eventBus";
+import Swal from "sweetalert2";
+
 export default {
   data() {
     return {
@@ -65,11 +94,12 @@ export default {
         amount: "",
         category: "Food",
         toggel: false,
-        date: ""
-
+        date: "",
       },
 
-      errormsg: ""
+      errormsg: "",
+      amountError: "",
+      dateError: "",
     };
   },
 
@@ -77,92 +107,111 @@ export default {
     const id = this.$route.query.id;
     if (id) {
       const saved = JSON.parse(localStorage.getItem("expenses") || "[]");
-
       const exp = saved.find((e) => e.id == id);
-      if (exp) {
-        this.expense = { ...exp };
-      }
+      if (exp) this.expense = { ...exp };
     }
   },
 
   methods: {
-
     filterText() {
-      this.expense.title = this.expense.title.replace(/[^a-zA-Z\s]/g, '');
-
-
+      this.expense.title = this.expense.title.replace(/[^a-zA-Z\s]/g, "");
     },
 
     handleToggel() {
-
-      if (this.expense.toggel) {
-        console.log("On Hai abhi")
-      }
-
-      else {
-        console.log("Off hai abhi")
-      }
-
+      console.log(this.expense.toggel ? "On" : "Off");
     },
-
 
     handleImage(element) {
-      const files = element.target.files
-      this.expense.image = []
-
-      Array.from(files).forEach(file => {
-        const reader = new FileReader()
+      const files = element.target.files;
+      this.expense.image = [];
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
         reader.onload = (e) => {
-          this.expense.image.push(e.target.result)
+          this.expense.image.push(e.target.result);
         };
-        reader.readAsDataURL(file)
-      })
-
+        reader.readAsDataURL(file);
+      });
     },
 
-
     handleSubmit() {
+      let hasError = false;
 
+      // Title validation
       if (!this.expense.title.trim()) {
         this.errormsg = "Name is required";
+        hasError = true;
       } else {
-        this.errormsg = ""; // error hata do agar sahi hai
+        this.errormsg = "";
       }
 
-
-      //  Amount validation
-      if (this.expense.amount <= 0) {
-        alert("The amount is required");
-        return;
+      // Amount validation
+      if (
+        this.expense.amount === null ||
+        this.expense.amount === "" ||
+        this.expense.amount === undefined
+      ) {
+        this.amountError = "Amount is required";
+        hasError = true;
+      } else if (this.expense.amount <= 0) {
+        this.amountError = "Amount must be greater than 0";
+        hasError = true;
+      } else if (!Number.isInteger(this.expense.amount)) {
+        this.amountError = "Amount must be a whole number";
+        hasError = true;
+      } else {
+        this.amountError = "";
       }
 
-      if (!Number.isInteger(this.expense.amount)) {
-        alert("Amount must be a whole number");
-        return;
+      // Date validation
+      if (!this.expense.date) {
+        this.dateError = "Date is required";
+        hasError = true;
+      } else {
+        this.dateError = "";
       }
+
+      if (hasError) return;
 
       const saved = JSON.parse(localStorage.getItem("expenses") || "[]");
       const id = this.$route.query.id;
 
       if (id) {
-        //  edit yaha hoga
         const index = saved.findIndex((e) => e.id == id);
-        if (index !== -1) {
-          saved[index] = { ...this.expense, id: Number(id) };
-        }
+        if (index !== -1) saved[index] = { ...this.expense, id: Number(id) };
         localStorage.setItem("expenses", JSON.stringify(saved));
-        alert("Expense Updated Successfully!");
+
+        Swal.fire({
+          icon: "success",
+          title: "Updated!",
+          text: "Expense Updated Successfully!",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          this.$router.push("/"); // redirect after update
+        });
       } else {
-        // add yaha hoga
         const newExp = { ...this.expense, id: Date.now() };
         saved.push(newExp);
         localStorage.setItem("expenses", JSON.stringify(saved));
         EventBus.$emit("expenses-added", newExp);
-        alert("Expense Added Successfully!");
+
+        Swal.fire({
+          icon: "success",
+          title: "Added!",
+          text: "Expense Added Successfully!",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          this.$router.push("/"); // redirect after update
+        });
       }
 
-      this.expense = { title: "", amount: "", category: "", date: "" };
-      this.$router.push("/");
+      // Reset form
+      this.expense = {
+        title: "",
+        amount: "",
+        category: "Food",
+        toggel: false,
+        date: "",
+      };
     },
 
     back() {

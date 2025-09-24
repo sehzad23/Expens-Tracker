@@ -56,14 +56,12 @@ body {
 
 .expense-form {
     max-width: 80%;
-    margin: 2rem auto;
+    margin: 1rem auto;
     background: #ffffff;
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: relative;
-
-
 
     .cancel-btn {
         background-color: #00c6ff;
@@ -124,6 +122,14 @@ body {
         }
 
         .name-error {
+            color: red;
+        }
+
+        .amount-error {
+            color: red;
+        }
+
+        .date-error {
             color: red;
         }
     }
@@ -299,10 +305,6 @@ body {
     /* white text */
     text-align: center;
     padding: 15px 0;
-    position: fixed;
-    /* hamesha neeche chipka rahe */
-    bottom: 0;
-    left: 0;
     width: 100%;
     font-size: 14px;
 }
