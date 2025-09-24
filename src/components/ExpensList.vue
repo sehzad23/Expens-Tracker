@@ -5,7 +5,7 @@
       <button @click="goToAddForm">Add Expens</button>
     </div>
 
-   
+
 
     <table class="expense-table">
       <thead>
@@ -14,20 +14,31 @@
           <th>Amount</th>
           <th>Category</th>
           <th>Date</th>
+          <th>Image</th>
           <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="(exp, index) in expenses" :key="exp.id">
-          <td>{{ exp.title }}</td>
-          <td>Rs {{ exp.amount }}</td>
-          <td>{{ exp.category }}</td>
-          <td>{{ exp.date }}</td>
+          <td class="exp-titel">{{ exp.title }}</td>
+          <td class="exp-amount">{{ exp.amount }}</td>
+          <td class="exp-cetegory">{{ exp.category }}</td>
+          <td class="exp-date">{{ exp.date }}</td>
+
+
           <td>
+            <div v-if="exp.image && exp.image.length">
+              <div v-for="(img, index) in exp.image" :key="index" class="preview-item">
+                <img :src="img" alt="Expens image">
+              </div>
+            </div>
+          </td>
+          <td class="exp-btns">
             <i class="ri-delete-bin-6-line delete-icon" @click="DeleteList(index)"></i>
             <i class="ri-edit-circle-fill update-icon" @click="UpdateList(exp.id)"></i>
           </td>
+
         </tr>
       </tbody>
     </table>
