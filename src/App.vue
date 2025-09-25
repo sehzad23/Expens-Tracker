@@ -1,17 +1,17 @@
 <template>
   <div>
     <NavBar />
-    <FooterContent />
+    <!-- <FooterContent /> -->
   </div>
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
-import FooterContent from "./components/FooterContent.vue";
+// import FooterContent from "./components/FooterContent.vue";
 export default {
   name: "App",
   components: {
     NavBar,
-    FooterContent,
+    // FooterContent,
   },
 };
 </script>

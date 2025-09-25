@@ -9,8 +9,12 @@
       <thead>
         <tr>
           <th>Title</th>
+          <th>Name</th>
+          <th>Email</th>
           <th>Amount</th>
+          <th>Payment Mode</th>
           <th>Category</th>
+          <th>Description</th>
           <th>Date</th>
           <th>Image</th>
           <th>Actions</th>
@@ -20,31 +24,25 @@
       <tbody>
         <tr v-for="(exp, index) in expenses" :key="exp.id">
           <td class="exp-titel">{{ exp.title }}</td>
+          <td class="exp-name">{{ exp.name }}</td>
+          <td class="exp-email">{{ exp.email }}</td>
           <td class="exp-amount">{{ exp.amount }}</td>
+          <td class="exp-paymentMode">{{ exp.paymentMode }}</td>
           <td class="exp-cetegory">{{ exp.category }}</td>
+          <td class="exp-notes">{{ exp.notes }}</td>
           <td class="exp-date">{{ exp.date }}</td>
 
           <td>
             <div v-if="exp.image && exp.image.length">
-              <div
-                v-for="(img, index) in exp.image"
-                :key="index"
-                class="preview-item"
-              >
+              <div v-for="(img, index) in exp.image" :key="index" class="preview-item">
                 <img :src="img" alt="Expens image" />
               </div>
             </div>
             <div v-else>No image</div>
           </td>
           <td class="exp-btns">
-            <i
-              class="ri-delete-bin-6-line delete-icon"
-              @click="DeleteList(index)"
-            ></i>
-            <i
-              class="ri-edit-circle-fill update-icon"
-              @click="UpdateList(exp.id)"
-            ></i>
+            <i class="ri-delete-bin-6-line delete-icon" @click="DeleteList(index)"></i>
+            <i class="ri-edit-circle-fill update-icon" @click="UpdateList(exp.id)"></i>
           </td>
         </tr>
       </tbody>
