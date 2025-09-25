@@ -141,7 +141,43 @@ body {
         }
     }
 
+
+
     .toggle-group {}
+
+    // payment moded design
+    .form-group-payment {
+        margin-bottom: 1.2rem;
+
+        >label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            /* space between input and text */
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            accent-color: #007bff;
+            /* blue color for selected */
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .amount-error {
+            color: red;
+            font-size: 0.85rem;
+        }
+    }
 
 
 
@@ -258,7 +294,8 @@ body {
             padding: 20px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            font-size: 15px;
+            font-size: 14px;
+
 
             div {
 
@@ -274,6 +311,21 @@ body {
                 }
             }
         }
+
+        .exp-status span {
+
+            font-size: 11px;
+            padding: 5px;
+            background-color: #333;
+            color: #fff;
+            width: 80px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 20px;
+
+        }
+
+
 
 
 

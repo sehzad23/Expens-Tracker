@@ -14,6 +14,7 @@
           <th>Amount</th>
           <th>Payment Mode</th>
           <th>Category</th>
+          <th>Status</th>
           <th>Description</th>
           <th>Date</th>
           <th>Image</th>
@@ -29,20 +30,36 @@
           <td class="exp-amount">{{ exp.amount }}</td>
           <td class="exp-paymentMode">{{ exp.paymentMode }}</td>
           <td class="exp-cetegory">{{ exp.category }}</td>
+
+          <td class="exp-status">
+            <span v-if="exp.toggel">Available</span>
+            <span v-else>Not Available</span>
+          </td>
+
           <td class="exp-notes">{{ exp.notes }}</td>
           <td class="exp-date">{{ exp.date }}</td>
 
           <td>
             <div v-if="exp.image && exp.image.length">
-              <div v-for="(img, index) in exp.image" :key="index" class="preview-item">
+              <div
+                v-for="(img, index) in exp.image"
+                :key="index"
+                class="preview-item"
+              >
                 <img :src="img" alt="Expens image" />
               </div>
             </div>
             <div v-else>No image</div>
           </td>
           <td class="exp-btns">
-            <i class="ri-delete-bin-6-line delete-icon" @click="DeleteList(index)"></i>
-            <i class="ri-edit-circle-fill update-icon" @click="UpdateList(exp.id)"></i>
+            <i
+              class="ri-delete-bin-6-line delete-icon"
+              @click="DeleteList(index)"
+            ></i>
+            <i
+              class="ri-edit-circle-fill update-icon"
+              @click="UpdateList(exp.id)"
+            ></i>
           </td>
         </tr>
       </tbody>

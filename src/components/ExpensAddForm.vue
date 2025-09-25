@@ -8,50 +8,91 @@
       <!-- Title -->
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" id="title" v-model="expense.title" placeholder="Enter expense title" @input="filterText" />
+        <input
+          type="text"
+          id="title"
+          v-model="expense.title"
+          placeholder="Enter expense title"
+          @input="filterText"
+        />
         <small v-if="errormsg" class="name-error">{{ errormsg }}</small>
       </div>
 
       <!-- name -->
       <div class="form-group">
         <label for="title">Name</label>
-        <input type="text" id="title" v-model="expense.name" placeholder="Enter expense title" @input="filterText" />
+        <input
+          type="text"
+          id="title"
+          v-model="expense.name"
+          placeholder="Enter expense title"
+          @input="filterText"
+        />
         <small v-if="nameError" class="name-error">{{ nameError }}</small>
-
       </div>
-
 
       <!-- Email -->
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="expense.email" placeholder="Enter email" />
+        <input
+          type="email"
+          id="email"
+          v-model="expense.email"
+          placeholder="Enter email"
+        />
         <small v-if="emailError" class="name-error">{{ emailError }}</small>
       </div>
-
 
       <!-- Amount -->
       <div class="form-group">
         <label for="amount">Amount</label>
-        <input type="number" id="amount" v-model.number="expense.amount" placeholder="Enter amount" step="any" />
+        <input
+          type="number"
+          id="amount"
+          v-model.number="expense.amount"
+          placeholder="Enter amount"
+          step="any"
+        />
         <small v-if="amountError" class="amount-error">{{ amountError }}</small>
       </div>
 
       <!-- Radio Buttons Example -->
-      <div class="form-group">
+      <div class="form-group-payment">
         <label>Payment Mode</label>
-        <div>
-          <input type="radio" id="cash" value="Cash" v-model="expense.paymentMode" />
+
+        <div class="option">
+          <input
+            type="radio"
+            id="cash"
+            value="Cash"
+            v-model="expense.paymentMode"
+          />
           <label for="cash">Cash</label>
         </div>
-        <div>
-          <input type="radio" id="card" value="Card" v-model="expense.paymentMode" />
+
+        <div class="option">
+          <input
+            type="radio"
+            id="card"
+            value="Card"
+            v-model="expense.paymentMode"
+          />
           <label for="card">Card</label>
         </div>
-        <div>
-          <input type="radio" id="upi" value="UPI" v-model="expense.paymentMode" />
+
+        <div class="option">
+          <input
+            type="radio"
+            id="upi"
+            value="UPI"
+            v-model="expense.paymentMode"
+          />
           <label for="upi">UPI</label>
         </div>
-        <small v-if="paymentModeError" class="amount-error">{{ paymentModeError }}</small>
+
+        <small v-if="paymentModeError" class="amount-error">
+          {{ paymentModeError }}
+        </small>
       </div>
 
       <!-- Category -->
@@ -67,10 +108,14 @@
         </select>
       </div>
 
-      <!-- Toggle Image -->
+      <!-- Toggle -->
       <div class="form-group toggle-group">
         <label class="switch">
-          <input type="checkbox" v-model="expense.toggel" @change="handleToggel" />
+          <input
+            type="checkbox"
+            v-model="expense.toggel"
+            @change="handleToggel"
+          />
           <span class="slider round"></span>
         </label>
         <span class="toggle-label"></span>
@@ -79,7 +124,13 @@
       <!-- Image Input -->
       <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" id="image" accept="image/*" multiple @change="handleImage" />
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          multiple
+          @change="handleImage"
+        />
         <small v-if="imageError" class="date-error">{{ imageError }}</small>
       </div>
 
@@ -93,7 +144,13 @@
       <!-- Textarea -->
       <div class="form-group">
         <label for="notes">Notes</label>
-        <textarea id="notes" v-model="expense.notes" cols="40" rows="5" placeholder="Enter notes"></textarea>
+        <textarea
+          id="notes"
+          v-model="expense.notes"
+          cols="40"
+          rows="5"
+          placeholder="Enter notes"
+        ></textarea>
         <small v-if="notesError" class="date-error">{{ notesError }}</small>
       </div>
 
@@ -120,19 +177,19 @@ export default {
         toggel: false,
         date: "",
         notes: "",
-        image: []
+        image: [],
       },
 
       // Error messages
-      errormsg: "",       // Title
-      nameError: "",      // Name
-      emailError: "",     // Email
-      amountError: "",    // Amount
+      errormsg: "", // Title
+      nameError: "", // Name
+      emailError: "", // Email
+      amountError: "", // Amount
       paymentModeError: "", // Payment Mode
-      categoryError: "",  // Category
-      imageError: "",     // Image
-      dateError: "",      // Date
-      notesError: ""      // Notes
+      categoryError: "", // Category
+      imageError: "", // Image
+      dateError: "", // Date
+      notesError: "", // Notes
     };
   },
 
